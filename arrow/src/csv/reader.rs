@@ -67,7 +67,7 @@ lazy_static! {
         .unwrap();
     static ref DATE_RE: Regex = Regex::new(r"^\d{4}-\d\d-\d\d$").unwrap();
     static ref DATETIME_RE: Regex =
-        Regex::new(r"^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d$").unwrap();
+        Regex::new(r"^\d{4}-\d\d-\d\d[T ]\d\d:\d\d:\d\d$").unwrap();
 }
 
 /// Infer the data type of a record
@@ -1345,6 +1345,7 @@ mod tests {
         assert_eq!(infer_field_schema("false"), DataType::Boolean);
         assert_eq!(infer_field_schema("2020-11-08"), DataType::Date32);
         assert_eq!(infer_field_schema("2020-11-08T14:20:01"), DataType::Date64);
+        assert_eq!(infer_field_schema("2020-11-08 14:20:01"), DataType::Date64);
     }
 
     #[test]
