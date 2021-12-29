@@ -90,7 +90,7 @@ fn infer_field_schema(string: &str) -> DataType {
     } else if INTEGER_RE.is_match(string) {
         DataType::Int64
     } else if DATETIME_RE.is_match(string) {
-        DataType::Date64
+        DataType::Date64(todo!())
     } else if DATE_RE.is_match(string) {
         DataType::Date32
     } else {
@@ -551,7 +551,7 @@ fn parse(
                 DataType::Date32 => {
                     build_primitive_array::<Date32Type>(line_number, rows, i)
                 }
-                DataType::Date64 => {
+                DataType::Date64(_) => {
                     build_primitive_array::<Date64Type>(line_number, rows, i)
                 }
                 DataType::Timestamp(TimeUnit::Microsecond, _) => build_primitive_array::<
@@ -689,7 +689,7 @@ impl Parser for Date32Type {
 impl Parser for Date64Type {
     fn parse(string: &str) -> Option<i64> {
         match Self::DATA_TYPE {
-            DataType::Date64 => {
+            DataType::Date64(_) => {
                 let date_time = string.parse::<chrono::NaiveDateTime>().ok()?;
                 Self::Native::from_i64(date_time.timestamp_millis())
             }
@@ -1459,7 +1459,7 @@ mod tests {
         assert_eq!(&DataType::Float64, schema.field(2).data_type());
         assert_eq!(&DataType::Boolean, schema.field(3).data_type());
         assert_eq!(&DataType::Date32, schema.field(4).data_type());
-        assert_eq!(&DataType::Date64, schema.field(5).data_type());
+        assert_eq!(&DataType::Date64(todo!()), schema.field(5).data_type());
 
         let names: Vec<&str> =
             schema.fields().iter().map(|x| x.name().as_str()).collect();
@@ -1531,7 +1531,10 @@ mod tests {
         assert_eq!(infer_field_schema("true"), DataType::Boolean);
         assert_eq!(infer_field_schema("false"), DataType::Boolean);
         assert_eq!(infer_field_schema("2020-11-08"), DataType::Date32);
-        assert_eq!(infer_field_schema("2020-11-08T14:20:01"), DataType::Date64);
+        assert_eq!(
+            infer_field_schema("2020-11-08T14:20:01"),
+            DataType::Date64(todo!())
+        );
         assert_eq!(infer_field_schema("-5.13"), DataType::Float64);
         assert_eq!(infer_field_schema("0.1300"), DataType::Float64);
     }

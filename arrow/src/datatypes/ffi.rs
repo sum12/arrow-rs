@@ -47,7 +47,7 @@ impl TryFrom<&FFI_ArrowSchema> for DataType {
             "u" => DataType::Utf8,
             "U" => DataType::LargeUtf8,
             "tdD" => DataType::Date32,
-            "tdm" => DataType::Date64,
+            "tdm" => DataType::Date64(todo!()),
             "tts" => DataType::Time32(TimeUnit::Second),
             "ttm" => DataType::Time32(TimeUnit::Millisecond),
             "ttu" => DataType::Time64(TimeUnit::Microsecond),
@@ -189,7 +189,7 @@ impl TryFrom<&DataType> for FFI_ArrowSchema {
             DataType::LargeUtf8 => "U".to_string(),
             DataType::Decimal(precision, scale) => format!("d:{},{}", precision, scale),
             DataType::Date32 => "tdD".to_string(),
-            DataType::Date64 => "tdm".to_string(),
+            DataType::Date64(_) => "tdm".to_string(),
             DataType::Time32(TimeUnit::Second) => "tts".to_string(),
             DataType::Time32(TimeUnit::Millisecond) => "ttm".to_string(),
             DataType::Time64(TimeUnit::Microsecond) => "ttu".to_string(),
@@ -309,7 +309,7 @@ mod tests {
         round_trip_type(DataType::Int64)?;
         round_trip_type(DataType::UInt64)?;
         round_trip_type(DataType::Float64)?;
-        round_trip_type(DataType::Date64)?;
+        round_trip_type(DataType::Date64(todo!()))?;
         round_trip_type(DataType::Time64(TimeUnit::Nanosecond))?;
         round_trip_type(DataType::Utf8)?;
         round_trip_type(DataType::List(Box::new(Field::new(

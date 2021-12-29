@@ -312,7 +312,7 @@ fn set_column_for_json_rows(
                 value_as_date
             );
         }
-        DataType::Date64 => {
+        DataType::Date64(_) => {
             set_temporal_column_by_array_type!(
                 Date64Array,
                 col_name,

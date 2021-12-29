@@ -162,7 +162,7 @@ fn write_leaves(
         | ArrowDataType::Float64
         | ArrowDataType::Timestamp(_, _)
         | ArrowDataType::Date32
-        | ArrowDataType::Date64
+        | ArrowDataType::Date64(_)
         | ArrowDataType::Time32(_)
         | ArrowDataType::Time64(_)
         | ArrowDataType::Duration(_)
@@ -246,9 +246,9 @@ fn write_leaf(
     let written = match writer {
         ColumnWriter::Int32ColumnWriter(ref mut typed) => {
             let values = match column.data_type() {
-                ArrowDataType::Date64 => {
+                ArrowDataType::Date64(_) => {
                     // If the column is a Date64, we cast it to a Date32, and then interpret that as Int32
-                    let array = if let ArrowDataType::Date64 = column.data_type() {
+                    let array = if let ArrowDataType::Date64(_) = column.data_type() {
                         let array =
                             arrow::compute::cast(&column, &ArrowDataType::Date32)?;
                         arrow::compute::cast(&array, &ArrowDataType::Int32)?

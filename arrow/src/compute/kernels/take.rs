@@ -142,7 +142,7 @@ where
         DataType::Float32 => downcast_take!(Float32Type, values, indices),
         DataType::Float64 => downcast_take!(Float64Type, values, indices),
         DataType::Date32 => downcast_take!(Date32Type, values, indices),
-        DataType::Date64 => downcast_take!(Date64Type, values, indices),
+        DataType::Date64(_) => downcast_take!(Date64Type, values, indices),
         DataType::Time32(Second) => downcast_take!(Time32SecondType, values, indices),
         DataType::Time32(Millisecond) => {
             downcast_take!(Time32MillisecondType, values, indices)

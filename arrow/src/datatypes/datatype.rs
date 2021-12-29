@@ -84,7 +84,7 @@ pub enum DataType {
     Date32,
     /// A 64-bit date representing the elapsed time since UNIX epoch (1970-01-01)
     /// in milliseconds (64 bits). Values are evenly divisible by 86400000.
-    Date64,
+    Date64(Option<String>),
     /// A 32-bit time representing the elapsed time since midnight in the unit of `TimeUnit`.
     Time32(TimeUnit),
     /// A 64-bit time representing the elapsed time since midnight in the unit of `TimeUnit`.
@@ -250,7 +250,7 @@ impl DataType {
                 }
                 Some(s) if s == "date" => match map.get("unit") {
                     Some(p) if p == "DAY" => Ok(DataType::Date32),
-                    Some(p) if p == "MILLISECOND" => Ok(DataType::Date64),
+                    Some(p) if p == "MILLISECOND" => Ok(DataType::Date64(todo!())),
                     _ => Err(ArrowError::ParseError(
                         "date unit missing or invalid".to_string(),
                     )),
@@ -431,7 +431,7 @@ impl DataType {
             DataType::Date32 => {
                 json!({"name": "date", "unit": "DAY"})
             }
-            DataType::Date64 => {
+            DataType::Date64(_) => {
                 json!({"name": "date", "unit": "MILLISECOND"})
             }
             DataType::Timestamp(unit, None) => {

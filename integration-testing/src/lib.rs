@@ -183,7 +183,7 @@ fn array_from_json(
             arrow::compute::cast(&array, field.data_type())
         }
         DataType::Int64
-        | DataType::Date64
+        | DataType::Date64(_)
         | DataType::Time64(_)
         | DataType::Timestamp(_, _)
         | DataType::Duration(_)

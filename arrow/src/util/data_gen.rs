@@ -92,7 +92,7 @@ pub fn create_random_array(
             return crate::compute::cast(&int64_array, field.data_type());
         }
         Date32 => Arc::new(create_primitive_array::<Date32Type>(size, null_density)),
-        Date64 => Arc::new(create_primitive_array::<Date64Type>(size, null_density)),
+        Date64(_) => Arc::new(create_primitive_array::<Date64Type>(size, null_density)),
         Time32(unit) => match unit {
             TimeUnit::Second => Arc::new(create_primitive_array::<Time32SecondType>(
                 size,

@@ -170,7 +170,7 @@ impl<T: ArrowPrimitiveType> Array for PrimitiveArray<T> {
 fn as_datetime<T: ArrowPrimitiveType>(v: i64) -> Option<NaiveDateTime> {
     match T::DATA_TYPE {
         DataType::Date32 => Some(temporal_conversions::date32_to_datetime(v as i32)),
-        DataType::Date64 => Some(temporal_conversions::date64_to_datetime(v)),
+        DataType::Date64(_) => Some(temporal_conversions::date64_to_datetime(v)),
         DataType::Time32(_) | DataType::Time64(_) => None,
         DataType::Timestamp(unit, _) => match unit {
             TimeUnit::Second => Some(temporal_conversions::timestamp_s_to_datetime(v)),
@@ -213,7 +213,7 @@ fn as_time<T: ArrowPrimitiveType>(v: i64) -> Option<NaiveTime> {
             _ => None,
         },
         DataType::Timestamp(_, _) => as_datetime::<T>(v).map(|datetime| datetime.time()),
-        DataType::Date32 | DataType::Date64 => Some(NaiveTime::from_hms(0, 0, 0)),
+        DataType::Date32 | DataType::Date64(_) => Some(NaiveTime::from_hms(0, 0, 0)),
         DataType::Interval(_) => None,
         _ => None,
     }
@@ -287,7 +287,7 @@ impl<T: ArrowPrimitiveType> fmt::Debug for PrimitiveArray<T> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "PrimitiveArray<{:?}>\n[\n", T::DATA_TYPE)?;
         print_long_array(self, f, |array, index, f| match T::DATA_TYPE {
-            DataType::Date32 | DataType::Date64 => {
+            DataType::Date32 | DataType::Date64(_) => {
                 let v = self.value(index).to_isize().unwrap() as i64;
                 match as_date::<T>(v) {
                     Some(date) => write!(f, "{:?}", date),

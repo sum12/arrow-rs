@@ -344,7 +344,7 @@ impl<T: DataType> ArrayReader for PrimitiveArrayReader<T> {
         // These are:
         // - date64: we should cast int32 to date32, then date32 to date64.
         let array = match target_type {
-            ArrowType::Date64 => {
+            ArrowType::Date64(_) => {
                 // this is cheap as it internally reinterprets the data
                 let a = arrow::compute::cast(&array, &ArrowType::Date32)?;
                 arrow::compute::cast(&a, &target_type)?
@@ -727,7 +727,7 @@ fn remove_indices(
         ArrowType::Date32 => {
             remove_primitive_array_indices!(arr, ArrowDate32Type, indices)
         }
-        ArrowType::Date64 => {
+        ArrowType::Date64(_) => {
             remove_primitive_array_indices!(arr, ArrowDate64Type, indices)
         }
         ArrowType::Time32(ArrowTimeUnit::Second) => {

@@ -218,7 +218,7 @@ pub(crate) fn get_data_type(field: ipc::Field, may_be_dictionary: bool) -> DataT
             let date = field.type_as_date().unwrap();
             match date.unit() {
                 ipc::DateUnit::DAY => DataType::Date32,
-                ipc::DateUnit::MILLISECOND => DataType::Date64,
+                ipc::DateUnit::MILLISECOND => DataType::Date64(todo!()),
                 z => panic!("Date type with unit of {:?} not supported", z),
             }
         }
@@ -500,7 +500,7 @@ pub(crate) fn get_fb_field_type<'a>(
                 children: Some(fbb.create_vector(&empty_fields[..])),
             }
         }
-        Date64 => {
+        Date64(_) => {
             let mut builder = ipc::DateBuilder::new(fbb);
             builder.add_unit(ipc::DateUnit::MILLISECOND);
             FBFieldType {
@@ -723,7 +723,7 @@ mod tests {
                 Field::new("null", DataType::Null, false),
                 Field::new("bool", DataType::Boolean, false),
                 Field::new("date32", DataType::Date32, false),
-                Field::new("date64", DataType::Date64, true),
+                Field::new("date64", DataType::Date64(todo!()), true),
                 Field::new("time32[s]", DataType::Time32(TimeUnit::Second), true),
                 Field::new("time32[ms]", DataType::Time32(TimeUnit::Millisecond), false),
                 Field::new("time64[us]", DataType::Time64(TimeUnit::Microsecond), false),

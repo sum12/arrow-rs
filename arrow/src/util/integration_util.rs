@@ -242,7 +242,7 @@ impl ArrowJsonBatch {
                         arr.equals_json(&json_array.iter().collect::<Vec<&Value>>()[..])
                     }
                     DataType::Int64
-                    | DataType::Date64
+                    | DataType::Date64(_)
                     | DataType::Time64(_)
                     | DataType::Timestamp(_, _)
                     | DataType::Duration(_) => {
@@ -503,7 +503,7 @@ fn json_from_col(col: &ArrowJsonColumn, data_type: &DataType) -> Vec<Value> {
         DataType::Map(field, keys_sorted) => json_from_map_col(col, field, *keys_sorted),
         DataType::Int64
         | DataType::UInt64
-        | DataType::Date64
+        | DataType::Date64(_)
         | DataType::Time64(_)
         | DataType::Timestamp(_, _)
         | DataType::Duration(_) => {
@@ -818,7 +818,7 @@ mod tests {
             Field::new("float32s", DataType::Float32, true),
             Field::new("float64s", DataType::Float64, true),
             Field::new("date_days", DataType::Date32, true),
-            Field::new("date_millis", DataType::Date64, true),
+            Field::new("date_millis", DataType::Date64(todo!()), true),
             Field::new("time_secs", DataType::Time32(TimeUnit::Second), true),
             Field::new("time_millis", DataType::Time32(TimeUnit::Millisecond), true),
             Field::new("time_micros", DataType::Time64(TimeUnit::Microsecond), true),

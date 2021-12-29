@@ -310,7 +310,7 @@ fn create_primitive_array(
         | Float64
         | Time64(_)
         | Timestamp(_, _)
-        | Date64
+        | Date64(_)
         | Duration(_)
         | Interval(IntervalUnit::DayTime)
         | Interval(IntervalUnit::MonthDayNano) => {

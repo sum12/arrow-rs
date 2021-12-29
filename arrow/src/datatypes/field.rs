@@ -521,7 +521,7 @@ impl Field {
             | DataType::Float64
             | DataType::Timestamp(_, _)
             | DataType::Date32
-            | DataType::Date64
+            | DataType::Date64(_)
             | DataType::Time32(_)
             | DataType::Time64(_)
             | DataType::Duration(_)

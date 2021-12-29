@@ -244,7 +244,7 @@ pub fn make_array(data: ArrayData) -> ArrayRef {
         DataType::Float32 => Arc::new(Float32Array::from(data)) as ArrayRef,
         DataType::Float64 => Arc::new(Float64Array::from(data)) as ArrayRef,
         DataType::Date32 => Arc::new(Date32Array::from(data)) as ArrayRef,
-        DataType::Date64 => Arc::new(Date64Array::from(data)) as ArrayRef,
+        DataType::Date64(_) => Arc::new(Date64Array::from(data)) as ArrayRef,
         DataType::Time32(TimeUnit::Second) => {
             Arc::new(Time32SecondArray::from(data)) as ArrayRef
         }
@@ -406,7 +406,7 @@ pub fn new_null_array(data_type: &DataType, length: usize) -> ArrayRef {
         DataType::Int64 => new_null_sized_array::<Int64Type>(data_type, length),
         DataType::UInt64 => new_null_sized_array::<UInt64Type>(data_type, length),
         DataType::Float64 => new_null_sized_array::<Float64Type>(data_type, length),
-        DataType::Date64 => new_null_sized_array::<Date64Type>(data_type, length),
+        DataType::Date64(_) => new_null_sized_array::<Date64Type>(data_type, length),
         // expanding this into Timestamp{unit}Type results in needless branching
         DataType::Timestamp(_, _) => new_null_sized_array::<Int64Type>(data_type, length),
         DataType::Time64(_) => new_null_sized_array::<Int64Type>(data_type, length),

@@ -106,7 +106,7 @@ pub(crate) fn new_buffers(data_type: &DataType, capacity: usize) -> [MutableBuff
             MutableBuffer::new(capacity * mem::size_of::<i32>()),
             empty_buffer,
         ],
-        DataType::Date64
+        DataType::Date64(_)
         | DataType::Time64(_)
         | DataType::Duration(_)
         | DataType::Timestamp(_, _) => [
@@ -532,7 +532,7 @@ impl ArrayData {
             | DataType::Float32
             | DataType::Float64
             | DataType::Date32
-            | DataType::Date64
+            | DataType::Date64(_)
             | DataType::Time32(_)
             | DataType::Time64(_)
             | DataType::Duration(_)
@@ -1173,7 +1173,7 @@ fn layout(data_type: &DataType) -> DataTypeLayout {
         DataType::Float64 => DataTypeLayout::new_fixed_width(size_of::<f64>()),
         DataType::Timestamp(_, _) => DataTypeLayout::new_fixed_width(size_of::<i64>()),
         DataType::Date32 => DataTypeLayout::new_fixed_width(size_of::<i32>()),
-        DataType::Date64 => DataTypeLayout::new_fixed_width(size_of::<i64>()),
+        DataType::Date64(_) => DataTypeLayout::new_fixed_width(size_of::<i64>()),
         DataType::Time32(_) => DataTypeLayout::new_fixed_width(size_of::<i32>()),
         DataType::Time64(_) => DataTypeLayout::new_fixed_width(size_of::<i64>()),
         DataType::Interval(IntervalUnit::YearMonth) => {

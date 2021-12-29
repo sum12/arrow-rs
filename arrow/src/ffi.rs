@@ -258,7 +258,7 @@ fn bit_width(data_type: &DataType, i: usize) -> Result<usize> {
         (DataType::Int8, 1) => size_of::<i8>() * 8,
         (DataType::Int16, 1) => size_of::<i16>() * 8,
         (DataType::Int32, 1) | (DataType::Date32, 1) | (DataType::Time32(_), 1) => size_of::<i32>() * 8,
-        (DataType::Int64, 1) | (DataType::Date64, 1) | (DataType::Time64(_), 1) => size_of::<i64>() * 8,
+        (DataType::Int64, 1) | (DataType::Date64(_), 1) | (DataType::Time64(_), 1) => size_of::<i64>() * 8,
         (DataType::Float32, 1) => size_of::<f32>() * 8,
         (DataType::Float64, 1) => size_of::<f64>() * 8,
         (DataType::Decimal(..), 1) => size_of::<i128>() * 8,
@@ -272,7 +272,7 @@ fn bit_width(data_type: &DataType, i: usize) -> Result<usize> {
         (DataType::Int8, _) |
         (DataType::Int16, _) |
         (DataType::Int32, _) | (DataType::Date32, _) | (DataType::Time32(_), _) |
-        (DataType::Int64, _) | (DataType::Date64, _) | (DataType::Time64(_), _) |
+        (DataType::Int64, _) | (DataType::Date64(_), _) | (DataType::Time64(_), _) |
         (DataType::Float32, _) |
         (DataType::Float64, _) |
         (DataType::Decimal(..), _) |

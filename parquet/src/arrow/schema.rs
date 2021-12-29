@@ -405,7 +405,7 @@ fn arrow_to_parquet_type(field: &Field) -> Result<Type> {
             .with_repetition(repetition)
             .build(),
         // date64 is cast to date32
-        DataType::Date64 => Type::primitive_type_builder(name, PhysicalType::INT32)
+        DataType::Date64(_) => Type::primitive_type_builder(name, PhysicalType::INT32)
             .with_logical_type(Some(LogicalType::DATE(Default::default())))
             .with_repetition(repetition)
             .build(),
@@ -1987,7 +1987,7 @@ mod tests {
                 Field::new("c3", DataType::FixedSizeBinary(3), false),
                 Field::new("c4", DataType::Boolean, false),
                 Field::new("c5", DataType::Date32, false),
-                Field::new("c6", DataType::Date64, false),
+                Field::new("c6", DataType::Date64(todo!()), false),
                 Field::new("c7", DataType::Time32(TimeUnit::Second), false),
                 Field::new("c8", DataType::Time32(TimeUnit::Millisecond), false),
                 Field::new("c13", DataType::Time64(TimeUnit::Microsecond), false),

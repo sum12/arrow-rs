@@ -1655,7 +1655,7 @@ pub fn make_builder(datatype: &DataType, capacity: usize) -> Box<dyn ArrayBuilde
         }
         DataType::Utf8 => Box::new(StringBuilder::new(capacity)),
         DataType::Date32 => Box::new(Date32Builder::new(capacity)),
-        DataType::Date64 => Box::new(Date64Builder::new(capacity)),
+        DataType::Date64(_) => Box::new(Date64Builder::new(capacity)),
         DataType::Time32(TimeUnit::Second) => {
             Box::new(Time32SecondBuilder::new(capacity))
         }
@@ -2030,7 +2030,7 @@ impl FieldData {
             }
             DataType::Int64
             | DataType::Timestamp(_, _)
-            | DataType::Date64
+            | DataType::Date64(_)
             | DataType::Time64(_)
             | DataType::Interval(IntervalUnit::DayTime)
             | DataType::Duration(_) => self.append_null::<Int64Type>()?,

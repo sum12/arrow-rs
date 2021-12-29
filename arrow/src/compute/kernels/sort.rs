@@ -204,7 +204,7 @@ pub fn sort_to_indices(
         DataType::Date32 => {
             sort_primitive::<Date32Type, _>(values, v, n, cmp, &options, limit)
         }
-        DataType::Date64 => {
+        DataType::Date64(_) => {
             sort_primitive::<Date64Type, _>(values, v, n, cmp, &options, limit)
         }
         DataType::Time32(Second) => {

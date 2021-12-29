@@ -192,7 +192,7 @@ fn equal_values(
         | DataType::Interval(IntervalUnit::YearMonth) => primitive_equal::<i32>(
             lhs, rhs, lhs_nulls, rhs_nulls, lhs_start, rhs_start, len,
         ),
-        DataType::Date64
+        DataType::Date64(_)
         | DataType::Interval(IntervalUnit::DayTime)
         | DataType::Time64(_)
         | DataType::Timestamp(_, _)

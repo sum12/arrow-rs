@@ -178,7 +178,7 @@ impl<W: Write> Writer<W> {
                         .format(&self.date_format)
                         .to_string()
                 }
-                DataType::Date64 => {
+                DataType::Date64(_) => {
                     let c = col.as_any().downcast_ref::<Date64Array>().unwrap();
                     c.value_as_datetime(row_index)
                         .unwrap()
@@ -705,7 +705,7 @@ sed do eiusmod tempor,-556132.25,1,,2019-04-18T02:45:55.555000000,23:46:03,foo
 
         let schema = Schema::new(vec![
             Field::new("c1", DataType::Date32, false),
-            Field::new("c2", DataType::Date64, false),
+            Field::new("c2", DataType::Date64(todo!()), false),
         ]);
 
         let c1 = Date32Array::from(vec![3, 2, 1]);

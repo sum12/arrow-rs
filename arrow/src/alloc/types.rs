@@ -66,7 +66,10 @@ create_native!(
 );
 create_native!(
     i64,
-    DataType::Int64 | DataType::Date64 | DataType::Time64(_) | DataType::Timestamp(_, _)
+    DataType::Int64
+        | DataType::Date64(_)
+        | DataType::Time64(_)
+        | DataType::Timestamp(_, _)
 );
 create_native!(f16, DataType::Float16);
 create_native!(f32, DataType::Float32);

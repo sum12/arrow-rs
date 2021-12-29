@@ -132,7 +132,7 @@ where
         &DataType::Time32(_) | &DataType::Time64(_) => {
             extract_component_from_array!(array, b, hour, value_as_time)
         }
-        &DataType::Date32 | &DataType::Date64 | &DataType::Timestamp(_, None) => {
+        &DataType::Date32 | &DataType::Date64(_) | &DataType::Timestamp(_, None) => {
             extract_component_from_array!(array, b, hour, value_as_datetime)
         }
         &DataType::Timestamp(_, Some(ref tz)) => {
@@ -160,7 +160,7 @@ where
 {
     let mut b = Int32Builder::new(array.len());
     match array.data_type() {
-        &DataType::Date32 | &DataType::Date64 | &DataType::Timestamp(_, _) => {
+        &DataType::Date32 | &DataType::Date64(_) | &DataType::Timestamp(_, _) => {
             extract_component_from_array!(array, b, year, value_as_datetime)
         }
         dt => return_compute_error_with!("year does not support", dt),
@@ -177,7 +177,7 @@ where
 {
     let mut b = Int32Builder::new(array.len());
     match array.data_type() {
-        &DataType::Date64 | &DataType::Timestamp(_, None) => {
+        &DataType::Date64(_) | &DataType::Timestamp(_, None) => {
             extract_component_from_array!(array, b, minute, value_as_datetime)
         }
         &DataType::Timestamp(_, Some(ref tz)) => {
@@ -205,7 +205,7 @@ where
 {
     let mut b = Int32Builder::new(array.len());
     match array.data_type() {
-        &DataType::Date64 | &DataType::Timestamp(_, None) => {
+        &DataType::Date64(_) | &DataType::Timestamp(_, None) => {
             extract_component_from_array!(array, b, second, value_as_datetime)
         }
         &DataType::Timestamp(_, Some(ref tz)) => {

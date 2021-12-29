@@ -146,7 +146,7 @@ macro_rules! make_string_interval_month_day_nano {
 }
 
 macro_rules! make_string_date {
-    ($array_type:ty, $column: ident, $row: ident) => {{
+    ($array_type:ty, $format: ident, $column: ident, $row: ident) => {{
         let array = $column.as_any().downcast_ref::<$array_type>().unwrap();
 
         let s = if array.is_null($row) {
@@ -326,8 +326,13 @@ pub fn array_value_to_string(column: &array::ArrayRef, row: usize) -> Result<Str
         DataType::Timestamp(unit, _) if *unit == TimeUnit::Nanosecond => {
             make_string_datetime!(array::TimestampNanosecondArray, column, row)
         }
-        DataType::Date32 => make_string_date!(array::Date32Array, column, row),
-        DataType::Date64 => make_string_date!(array::Date64Array, column, row),
+        DataType::Date32 => {
+            let format = "%Y-%m-%D".to_string();
+            make_string_date!(array::Date32Array, format, column, row)
+        }
+        DataType::Date64(format) => {
+            make_string_date!(array::Date64Array, format, column, row)
+        }
         DataType::Time32(unit) if *unit == TimeUnit::Second => {
             make_string_time!(array::Time32SecondArray, column, row)
         }
